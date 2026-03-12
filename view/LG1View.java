@@ -64,10 +64,10 @@ public class LG1View extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         timer = new Timer(200, e -> {
-            model.nextGeneration();
+            boolean changed = model.nextGeneration();
 
-            // 全滅なら自動停止する
-            if (!model.hasAliveCells()) {
+            // 変化なしか全滅なら自動停止する
+            if (!changed || !model.hasAliveCells()) {
                 timer.stop();
             }
 

@@ -24,8 +24,9 @@ public class LG1Model {
     }
 
     // 次世代を生成する
-    public void nextGeneration() {
+    public boolean nextGeneration() {
         boolean[][] next = new boolean[rows][cols];
+        boolean changed = false;
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -36,10 +37,16 @@ public class LG1Model {
                 } else {
                     next[r][c] = (neighbor == 3);
                 }
+
+                // 次世代で変化したか？
+                if (next[r][c] != grid[r][c]) {
+                    changed = true;
+                }
             }
         }
-
         grid = next;
+
+        return changed;
     }
 
     // 周囲の生存セルの個数を計算する
