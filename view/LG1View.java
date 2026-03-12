@@ -13,17 +13,19 @@ import javax.swing.Timer;
 import model.LG1Model;
 
 public class LG1View extends JPanel {
-    private int cellSize = 20;
+    private int cellSize = 20; // グリッド1マスあたりのサイズpx
 
-    private Timer timer;
+    private Timer timer; // 世代更新の間隔
 
     private JPanel boardPanel;
 
+    // コンストラクタ
     public LG1View(LG1Model model) {
         setLayout(new BorderLayout());
         boardPanel = new JPanel() {
+            // 画面描画
             protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
+                super.paintComponent(g); // 描画前に背景クリアしておかないと前の描画が残ることがある
 
                 for (int r = 0; r < 30; r++) {
                     for (int c = 0; c < 30; c++) {
@@ -31,9 +33,9 @@ public class LG1View extends JPanel {
                         int y = r * cellSize;
 
                         if (model.getCell(r, c)) {
-                            g.fillRect(x, y, cellSize, cellSize);
+                            g.fillRect(x, y, cellSize, cellSize); // 塗りつぶす(生)
                         } else {
-                            g.drawRect(x, y, cellSize, cellSize);
+                            g.drawRect(x, y, cellSize, cellSize); // 塗りつぶさない(死)
                         }
                     }
                 }
@@ -56,7 +58,6 @@ public class LG1View extends JPanel {
 
         JButton startButton = new JButton("Start");
         JButton stopButton = new JButton("Stop");
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
         buttonPanel.add(stopButton);
@@ -64,6 +65,12 @@ public class LG1View extends JPanel {
 
         timer = new Timer(200, e -> {
             model.nextGeneration();
+
+            // 全滅なら自動停止する
+            if (!model.hasAliveCells()) {
+                timer.stop();
+            }
+
             boardPanel.repaint();
         });
 

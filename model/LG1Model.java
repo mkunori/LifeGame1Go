@@ -5,6 +5,7 @@ public class LG1Model {
     private int cols;
     private boolean[][] grid;
 
+    // コンストラクタ
     public LG1Model(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
@@ -12,10 +13,12 @@ public class LG1Model {
         grid = new boolean[rows][cols];
     }
 
+    // セルの値を取得する
     public boolean getCell(int r, int c) {
         return grid[r][c];
     }
 
+    // セルを反転する
     public void toggleCell(int r, int c) {
         grid[r][c] = !grid[r][c];
     }
@@ -39,14 +42,14 @@ public class LG1Model {
         grid = next;
     }
 
-    // 周囲の命の個数を計算する
+    // 周囲の生存セルの個数を計算する
     private int countNeighbors(int r, int c) {
         int count = 0;
 
-        // 周囲を1マスずつ走査する
+        // 周囲の生存セルを1マスずつ走査する
         for (int dr = -1; dr <= 1; dr++) {
             for (int dc = -1; dc <= 1; dc++) {
-                if (dr == 0 && dc == 0) {
+                if (dr == 0 && dc == 0) { // 自分自身は走査しない
                     continue;
                 }
 
@@ -60,5 +63,17 @@ public class LG1Model {
         }
 
         return count;
+    }
+
+    // 生き残りが居るか？
+    public boolean hasAliveCells() {
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
