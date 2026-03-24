@@ -2,20 +2,20 @@ package controller;
 
 import javax.swing.Timer;
 
-import model.LG1Model;
-import view.LG1View;
+import model.LifeGameModel;
+import view.LifeGameView;
 
 /**
  * LifeGame1Go の操作を制御するコントローラクラス。
  * モデルの更新と画面の再描画を仲介し、タイマーによる世代更新も管理する。
  */
-public class LG1Controller {
+public class FileGameController {
 
     /** 盤面状態とゲームルールを管理するモデル */
-    private LG1Model model;
+    private LifeGameModel model;
 
     /** 画面全体を表すビュー */
-    private LG1View view;
+    private LifeGameView view;
 
     /** 世代更新の周期ms */
     private Timer timer;
@@ -26,7 +26,7 @@ public class LG1Controller {
      * @param model ライフゲームの状態を管理するモデル
      * @param view 画面表示を担当するビュー
      */
-    public LG1Controller(LG1Model model, LG1View view) {
+    public FileGameController(LifeGameModel model, LifeGameView view) {
 
         this.model = model;
         this.view = view;

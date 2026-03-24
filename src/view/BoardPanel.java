@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import controller.LG1Controller;
-import model.LG1Model;
+import controller.FileGameController;
+import model.LifeGameModel;
 
 /**
  * ライフゲームの盤面を表示するパネル。
@@ -17,10 +17,10 @@ import model.LG1Model;
 public class BoardPanel extends JPanel {
 
     /** ライフゲームのモデル層 */
-    private LG1Model model;
+    private LifeGameModel model;
 
     /** ライフゲームのコントローラ層 */
-    private LG1Controller controller;
+    private FileGameController controller;
 
     /** 盤面のグリッド1マスあたりのサイズpx */
     private int cellSize = 20;
@@ -30,7 +30,7 @@ public class BoardPanel extends JPanel {
      * 
      * @param model 描画対象のモデル
      */
-    public BoardPanel(LG1Model model) {
+    public BoardPanel(LifeGameModel model) {
         this.model = model;
 
         int boardWidth = model.getCols() * cellSize;
@@ -57,7 +57,7 @@ public class BoardPanel extends JPanel {
      * 
      * @param controller コントローラ
      */
-    public void setController(LG1Controller controller) {
+    public void setController(FileGameController controller) {
         this.controller = controller;
     }
 

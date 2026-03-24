@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import controller.LG1Controller;
+import controller.FileGameController;
 
 /**
  * ライフゲームの操作部品をまとめたパネル。
@@ -89,7 +89,7 @@ public class ControlPanel extends JPanel {
      * 
      * @param controller コントローラ
      */
-    public void setController(LG1Controller controller) {
+    public void setController(FileGameController controller) {
 
         startButton.addActionListener(e -> controller.start());
         stopButton.addActionListener(e -> controller.stop());

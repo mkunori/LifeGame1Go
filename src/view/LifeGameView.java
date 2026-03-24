@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import controller.LG1Controller;
-import model.LG1Model;
+import controller.FileGameController;
+import model.LifeGameModel;
 
 /**
  * LifeGame1Go の画面全体を表すビュークラス。
  * 盤面パネルと操作パネルを配置する。
  */
-public class LG1View extends JPanel {
+public class LifeGameView extends JPanel {
 
     /** 盤面パネル */
     private BoardPanel boardPanel;
@@ -24,7 +24,7 @@ public class LG1View extends JPanel {
      * 
      * @param model 描画対象のモデル
      */
-    public LG1View(LG1Model model) {
+    public LifeGameView(LifeGameModel model) {
 
         setLayout(new BorderLayout());
 
@@ -40,7 +40,7 @@ public class LG1View extends JPanel {
      * 
      * @param controller コントローラ
      */
-    public void setController(LG1Controller controller) {
+    public void setController(FileGameController controller) {
         // サブビュークラスにコントローラを渡す。
         boardPanel.setController(controller);
         controlPanel.setController(controller);

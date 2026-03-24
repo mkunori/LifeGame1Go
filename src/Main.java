@@ -1,26 +1,26 @@
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import controller.LG1Controller;
-import model.LG1Model;
-import view.LG1View;
+import controller.FileGameController;
+import model.LifeGameModel;
+import view.LifeGameView;
 
 /**
  * LifeGame1Go アプリケーションを起動するクラス。
  */
-public class LG1Main {
+public class Main {
 
     /**
-    * アプリケーションを起動する。
-    *
-    * @param args コマンドライン引数
-    */
+     * アプリケーションを起動する。
+     *
+     * @param args コマンドライン引数
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             // MVCインスタンスを生成する
-            LG1Model model = new LG1Model(30, 30);
-            LG1View view = new LG1View(model);
-            LG1Controller controller = new LG1Controller(model, view);
+            LifeGameModel model = new LifeGameModel(30, 30);
+            LifeGameView view = new LifeGameView(model);
+            FileGameController controller = new FileGameController(model, view);
 
             view.setController(controller);
 

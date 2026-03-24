@@ -50,15 +50,18 @@ Java（Swing）で作成したライフゲームアプリです。
 ## ■ パッケージ構成
 
 ```text
- LG1Main.java              // エントリーポイント  
+ Main                     // エントリーポイント
+
  model  
-  └─ LG1Model.java         // ライフゲームの状態管理  
+  └─ LifeGameModel        // ライフゲームの状態管理  
+
  view  
-  ├─ LG1View.java          // 画面全体の構成  
-  ├─ BoardPanel.java       // 盤面描画  
-  └─ ControlPanel.java     // 操作UI（ボタン・ラベル・スライダー）  
+  ├─ LifeGameView         // 画面全体の構成  
+  ├─ BoardPanel           // 盤面描画  
+  └─ ControlPanel         // 操作UI（ボタン・ラベル・スライダー） 
+   
  controller  
-  └─ LG1Controller.java    // 入力制御・タイマー管理  
+  └─ LifeGameController   // 入力制御・タイマー管理  
 ```
 
 ---
@@ -67,27 +70,27 @@ Java（Swing）で作成したライフゲームアプリです。
 
 ```mermaid
 classDiagram
-    class LG1Main
-    class LG1Controller
-    class LG1Model
-    class LG1View
+    class Main
+    class LifeGameController
+    class LifeGameModel
+    class LifeGameView
     class BoardPanel
     class ControlPanel
 
-    LG1Main --> LG1Controller
-    LG1Main --> LG1Model
-    LG1Main --> LG1View
+    Main --> LifeGameController
+    Main --> LifeGameModel
+    Main --> LifeGameView
 
-    LG1Controller --> LG1Model
-    LG1Controller --> LG1View
+    LifeGameController --> LifeGameModel
+    LifeGameController --> LifeGameView
 
-    LG1View --> BoardPanel
-    LG1View --> ControlPanel
+    LifeGameView --> BoardPanel
+    LifeGameView --> ControlPanel
 
-    BoardPanel --> LG1Model
-    BoardPanel --> LG1Controller
+    BoardPanel --> LifeGameModel
+    BoardPanel --> LifeGameController
 
-    ControlPanel --> LG1Controller
+    ControlPanel --> LifeGameController
 ```
 
 ---
@@ -113,7 +116,7 @@ classDiagram
 
 - BoardPanel：盤面描画専用  
 - ControlPanel：操作UI専用  
-- LG1View：全体のレイアウト管理  
+- LifeGameView：全体のレイアウト管理  
 
 ---
 

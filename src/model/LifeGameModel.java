@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * LifeGame1Go の盤面状態とゲームルールを管理するモデルクラス。
  */
-public class LG1Model {
+public class LifeGameModel {
 
     /** 盤面の行数 */
     private int rows;
@@ -25,7 +25,7 @@ public class LG1Model {
      * @param rows 盤面の行数
      * @param cols 盤面の列数
      */
-    public LG1Model(int rows, int cols) {
+    public LifeGameModel(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
 
