@@ -28,9 +28,18 @@ public class LG1View extends JPanel {
     /** 速度ラベル */
     private JLabel speedLabel;
 
+    /** 状態ラベル */
+    private JLabel statusLabel;
+
+    /** 開始ボタン */
+    private JButton startButton;
+
+    /** 停止ボタン */
+    private JButton stopButton;
+
     /**
      * ビューを生成する。
-     *
+     * 
      * @param model 描画対象のモデル
      */
     public LG1View(LG1Model model) {
@@ -40,10 +49,10 @@ public class LG1View extends JPanel {
         boardPanel = new BoardPanel(model);
         add(boardPanel, BorderLayout.CENTER);
 
-        JButton startButton = new JButton("Start");
+        startButton = new JButton("Start");
         startButton.addActionListener(e -> controller.start());
 
-        JButton stopButton = new JButton("Stop");
+        stopButton = new JButton("Stop");
         stopButton.addActionListener(e -> controller.stop());
 
         JButton randomButton = new JButton("Random");
@@ -76,7 +85,10 @@ public class LG1View extends JPanel {
 
         generationLabel = new JLabel("Generation: 0");
 
+        statusLabel = new JLabel("Status: Stopped");
+
         JPanel statusPanel = new JPanel();
+        statusPanel.add(statusLabel);
         statusPanel.add(speedLabel);
         statusPanel.add(speedSlider);
         statusPanel.add(generationLabel);
@@ -86,11 +98,13 @@ public class LG1View extends JPanel {
         southPanel.add(statusPanel, BorderLayout.SOUTH);
 
         add(southPanel, BorderLayout.SOUTH);
+
+        updateRunningState(false);
     }
 
     /**
      * コントローラを設定する。
-     *
+     * 
      * @param controller コントローラ
      */
     public void setController(LG1Controller controller) {
@@ -123,5 +137,25 @@ public class LG1View extends JPanel {
      */
     public void updateSpeedLabel(int delay) {
         speedLabel.setText("Speed: " + delay + " ms");
+    }
+
+    /**
+     * 状態表示ラベルを更新する。
+     * 
+     * @param status 表示する状態
+     */
+    public void updateStatusLabel(String status) {
+        statusLabel.setText("Status: " + status);
+    }
+
+    /**
+     * 実行状態に応じて、 Start ボタンと Stop ボタンの有効・無効を切り替える。
+     * 
+     * @param running 実行中なら true、停止中なら false
+     */
+    public void updateRunningState(boolean running) {
+
+        startButton.setEnabled(!running);
+        stopButton.setEnabled(running);
     }
 }

@@ -22,7 +22,7 @@ public class LG1Controller {
 
     /**
      * コントローラを生成する。
-     *
+     * 
      * @param model ライフゲームの状態を管理するモデル
      * @param view 画面表示を担当するビュー
      */
@@ -36,6 +36,9 @@ public class LG1Controller {
 
         view.updateGenerationLabel(model.getGeneration());
         view.updateSpeedLabel(timer.getDelay());
+        view.updateStatusLabel("Stopped");
+        view.updateRunningState(false);
+
     }
 
     /**
@@ -43,6 +46,8 @@ public class LG1Controller {
      */
     public void start() {
         timer.start();
+        view.updateStatusLabel("Running");
+        view.updateRunningState(true);
     }
 
     /**
@@ -50,11 +55,13 @@ public class LG1Controller {
      */
     public void stop() {
         timer.stop();
+        view.updateStatusLabel("Stopped");
+        view.updateRunningState(false);
     }
 
     /**
      * 指定したセルの生死を反転する。
-     *
+     * 
      * @param r 行番号
      * @param c 列番号
      */
@@ -66,25 +73,29 @@ public class LG1Controller {
 
     /**
      * 盤面をランダムな状態で初期化する。
-     * 世代数も 0 に戻す。
+     * 世代数も 0 に戻し、停止状態にする。
      */
     public void random() {
 
         model.randomize();
         model.resetGeneration();
 
+        view.updateStatusLabel("Stopped");
+        view.updateRunningState(false);
         view.updateGenerationLabel(model.getGeneration());
         view.repaintBoard();
     }
 
     /**
      * 盤面をクリアする。
-     * 世代数も 0 に戻す。
+     * 世代数も 0 に戻し、停止状態にする。
      */
     public void clear() {
         model.clear();
         model.resetGeneration();
 
+        view.updateStatusLabel("Stopped");
+        view.updateRunningState(false);
         view.updateGenerationLabel(model.getGeneration());
         view.repaintBoard();
     }
@@ -112,6 +123,8 @@ public class LG1Controller {
 
         if (!changed || !model.hasAliveCells()) {
             timer.stop();
+            view.updateStatusLabel("Stopped");
+            view.updateRunningState(false);
         }
 
         view.repaintBoard();
@@ -119,7 +132,7 @@ public class LG1Controller {
 
     /**
      * 世代更新の間隔を変更する。
-     *
+     * 
      * @param delay ミリ秒単位の更新間隔
      */
     public void setSpeed(int delay) {
