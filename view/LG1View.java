@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.LG1Controller;
@@ -19,6 +20,9 @@ public class LG1View extends JPanel {
 
     /** ライフゲームの盤面パネル */
     private BoardPanel boardPanel;
+
+    /** ライフゲームの世代数ラベル */
+    private JLabel generationLabel;
 
     /**
      * ビューを生成する。
@@ -54,6 +58,9 @@ public class LG1View extends JPanel {
         buttonPanel.add(clearButton);
         buttonPanel.add(gliderButton);
 
+        generationLabel = new JLabel("Generation: 0");
+        buttonPanel.add(generationLabel);
+
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -74,5 +81,14 @@ public class LG1View extends JPanel {
      */
     public void repaintBoard() {
         boardPanel.repaint();
+    }
+
+    /**
+     * 世代数ラベルを更新する。
+     * 
+     * @param generation 表示する世代数
+     */
+    public void updateGenerationLabel(int generation) {
+        generationLabel.setText("Generation: " + generation);
     }
 }

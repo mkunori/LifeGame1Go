@@ -6,18 +6,31 @@ import java.util.Random;
  * LifeGame1Go の盤面状態とゲームルールを管理するモデルクラス。
  */
 public class LG1Model {
+
+    /** 盤面の行数 */
     private int rows;
+
+    /** 盤面の列数 */
     private int cols;
+
+    /** 盤面の1セルごとの状態 */
     private boolean[][] grid;
 
+    /** 世代数 */
+    private int generation;
+
     /**
-     * LifeGame1Go の盤面状態とゲームルールを管理するモデルクラス。
+     * 指定した行数と列数でモデルを生成する。
+     * 
+     * @param rows 盤面の行数
+     * @param cols 盤面の列数
      */
     public LG1Model(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
 
         grid = new boolean[rows][cols];
+        resetGeneration();
     }
 
     /**
@@ -39,6 +52,30 @@ public class LG1Model {
     }
 
     /**
+     * 現在の世代数を返す。
+     * 
+     * @return 世代数
+     */
+    public int getGeneration() {
+        return generation;
+    }
+
+    /**
+     * 世代数を 1 増やす。
+     */
+    public void incrementGeneration() {
+        generation++;
+    }
+
+    /**
+     * 世代数を 0 に戻す。
+     */
+    public void resetGeneration() {
+        generation = 0;
+    }
+
+
+    /**
      * 指定したセルの状態を返す。
      *
      * @param r 行番号
@@ -50,11 +87,11 @@ public class LG1Model {
     }
 
     /**
-    * 指定したセルの状態を反転する。
-    *
-    * @param r 行番号
-    * @param c 列番号
-    */
+     * 指定したセルの状態を反転する。
+     *
+     * @param r 行番号
+     * @param c 列番号
+     */
     public void toggleCell(int r, int c) {
         grid[r][c] = !grid[r][c];
     }
@@ -65,12 +102,15 @@ public class LG1Model {
      * @return 盤面に変化があった場合 true
      */
     public boolean nextGeneration() {
+
         boolean[][] next = new boolean[rows][cols];
         boolean changed = false;
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
+
                 int neighbor = countNeighbors(r, c);
+
                 if (grid[r][c]) {
                     next[r][c] = (neighbor == 2 || neighbor == 3);
                 } else {
@@ -82,8 +122,8 @@ public class LG1Model {
                 }
             }
         }
-        grid = next;
 
+        grid = next;
         return changed;
     }
 
@@ -95,10 +135,13 @@ public class LG1Model {
      * @return 周囲の生存セル数
      */
     private int countNeighbors(int r, int c) {
+
         int count = 0;
+
         for (int dr = -1; dr <= 1; dr++) {
             for (int dc = -1; dc <= 1; dc++) {
-                if (dr == 0 && dc == 0) { // 自分自身は走査しない
+
+                if (dr == 0 && dc == 0) { // 自分自身は走査しない。
                     continue;
                 }
 
@@ -120,8 +163,10 @@ public class LG1Model {
      * @return 生存セルが存在する場合 true
      */
     public boolean hasAliveCells() {
+
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
+
                 if (grid[r][c]) {
                     return true;
                 }
@@ -141,7 +186,6 @@ public class LG1Model {
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-
                 grid[r][c] = rand.nextDouble() < 0.3;
             }
         }
@@ -152,6 +196,7 @@ public class LG1Model {
      * 全セルを死亡状態にする。
      */
     public void clear() {
+
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 grid[r][c] = false;
@@ -166,9 +211,11 @@ public class LG1Model {
      * @param c 配置開始列
      */
     public void placeGlider(int r, int c) {
+
         if (r + 2 >= rows || c + 2 >= cols) {
             return;
         }
+
         grid[r][c + 1] = true;
         grid[r + 1][c + 2] = true;
         grid[r + 2][c] = true;

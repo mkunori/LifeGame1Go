@@ -1,31 +1,40 @@
 package controller;
 
 import javax.swing.Timer;
+
 import model.LG1Model;
 import view.LG1View;
 
 /**
  * LifeGame1Go の操作を制御するコントローラクラス。
- * モデルの更新と画面の再描画を仲介し、
- * タイマーによる世代更新も管理する。
+ * モデルの更新と画面の再描画を仲介し、タイマーによる世代更新も管理する。
  */
 public class LG1Controller {
+
+    /** ライフゲームの盤面状態とゲームルールを管理するモデル */
     private LG1Model model;
+
+    /** ライフゲームの画面全体を表すビュー */
     private LG1View view;
-    private Timer timer; // 世代更新の間隔
+
+    /** 世代更新の周期ms */
+    private Timer timer;
 
     /**
      * コントローラを生成する。
      *
      * @param model ライフゲームの状態を管理するモデル
-     * @param view  画面表示を担当するビュー
+     * @param view 画面表示を担当するビュー
      */
     public LG1Controller(LG1Model model, LG1View view) {
+
         this.model = model;
         this.view = view;
 
         // 200ms ごとに 1 世代進める
         timer = new Timer(200, e -> step());
+
+        view.updateGenerationLabel(model.getGeneration());
     }
 
     /**
@@ -49,24 +58,33 @@ public class LG1Controller {
      * @param c 列番号
      */
     public void toggleCell(int r, int c) {
+
         model.toggleCell(r, c);
         view.repaintBoard();
     }
 
     /**
      * 盤面をランダムな状態で初期化する。
+     * 世代数も 0 に戻す。
      */
     public void random() {
+
         model.randomize();
+        model.resetGeneration();
+
+        view.updateGenerationLabel(model.getGeneration());
         view.repaintBoard();
     }
 
     /**
      * 盤面をクリアする。
-     * 全セルを死亡状態にする。
+     * 世代数も 0 に戻す。
      */
     public void clear() {
         model.clear();
+        model.resetGeneration();
+
+        view.updateGenerationLabel(model.getGeneration());
         view.repaintBoard();
     }
 
@@ -74,7 +92,9 @@ public class LG1Controller {
      * Glider パターンを配置する。
      */
     public void glider() {
+
         model.placeGlider(5, 5);
+
         view.repaintBoard();
     }
 
@@ -83,10 +103,16 @@ public class LG1Controller {
      * 変化がない場合、または生存セルがなくなった場合は自動停止する。
      */
     private void step() {
+
         boolean changed = model.nextGeneration();
+        model.incrementGeneration();
+
+        view.updateGenerationLabel(model.getGeneration());
+
         if (!changed || !model.hasAliveCells()) {
             timer.stop();
         }
+
         view.repaintBoard();
     }
 }
