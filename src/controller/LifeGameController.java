@@ -15,11 +15,6 @@ public class LifeGameController {
     private static final int DEFAULT_DELAY = 200;
 
     /** 盤面クリック時の動作モード */
-    private enum ClickMode {
-        TOGGLE, GLIDER, BLOCK
-    }
-
-    /** 盤面クリック時の動作モード */
     private ClickMode clickMode = ClickMode.TOGGLE;
 
     /** 盤面状態とゲームルールを管理するモデル */

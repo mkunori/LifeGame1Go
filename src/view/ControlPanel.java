@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import controller.ClickMode;
 import controller.LifeGameController;
 
 /**
@@ -56,7 +57,7 @@ public class ControlPanel extends JPanel {
     private JSlider speedSlider;
 
     /** モード選択用プルダウンリスト */
-    private JComboBox<String> modeComboBox;
+    private JComboBox<ClickMode> modeComboBox;
 
     /**
      * 操作パネルを生成する。
@@ -71,10 +72,10 @@ public class ControlPanel extends JPanel {
         clearButton = new JButton("Clear");
 
         modeComboBox = new JComboBox<>();
-        modeComboBox.addItem("Toggle");
-        modeComboBox.addItem("Glider");
-        modeComboBox.addItem("Block");
-        modeComboBox.setSelectedItem("Toggle");
+        modeComboBox.addItem(ClickMode.TOGGLE);
+        modeComboBox.addItem(ClickMode.GLIDER);
+        modeComboBox.addItem(ClickMode.BLOCK);
+        modeComboBox.setSelectedItem(ClickMode.TOGGLE);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
@@ -85,7 +86,7 @@ public class ControlPanel extends JPanel {
         buttonPanel.add(modeComboBox);
 
         statusLabel = new JLabel("Status: Stopped");
-        speedLabel = new JLabel("Speed: 200 ms");
+        speedLabel = new JLabel("Speed:" + DEFAULT_DELAY + "ms");
         generationLabel = new JLabel("Generation: 0");
 
         speedSlider = new JSlider(MIN_DELAY, MAX_DELAY, DEFAULT_DELAY);
@@ -124,12 +125,12 @@ public class ControlPanel extends JPanel {
         });
 
         modeComboBox.addActionListener(e -> {
-            String selectedMode = (String) modeComboBox.getSelectedItem();
+            ClickMode selectedMode = (ClickMode) modeComboBox.getSelectedItem();
 
             switch (selectedMode) {
-                case "Toggle" -> controller.setToggleMode();
-                case "Glider" -> controller.setGliderMode();
-                case "Block" -> controller.setBlockMode();
+                case TOGGLE -> controller.setToggleMode();
+                case GLIDER -> controller.setGliderMode();
+                case BLOCK -> controller.setBlockMode();
             }
         });
     }
