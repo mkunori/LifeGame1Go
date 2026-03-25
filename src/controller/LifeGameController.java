@@ -47,9 +47,7 @@ public class LifeGameController {
         view.updateGenerationLabel(model.getGeneration());
         view.updateSpeedLabel(timer.getDelay());
         view.updateStatusLabel("Stopped");
-        view.updateModeLabel("Toggle");
         view.updateRunningState(false);
-
     }
 
     /**
@@ -156,7 +154,6 @@ public class LifeGameController {
      */
     public void setToggleMode() {
         clickMode = ClickMode.TOGGLE;
-        view.updateModeLabel("Toggle");
     }
 
     /**
@@ -164,7 +161,6 @@ public class LifeGameController {
      */
     public void setGliderMode() {
         clickMode = ClickMode.GLIDER;
-        view.updateModeLabel("Glider");
     }
 
     /**
@@ -172,6 +168,5 @@ public class LifeGameController {
      */
     public void setBlockMode() {
         clickMode = ClickMode.BLOCK;
-        view.updateModeLabel("Block");
     }
 }

@@ -88,13 +88,4 @@ public class LifeGameView extends JPanel {
     public void updateRunningState(boolean running) {
         controlPanel.updateRunningState(running);
     }
-
-    /**
-     * モード表示ラベルを更新する。
-     * 
-     * @param mode 表示するモード名
-     */
-    public void updateModeLabel(String mode) {
-        controlPanel.updateModeLabel(mode);
-    }
 }

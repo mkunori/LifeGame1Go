@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -42,15 +43,6 @@ public class ControlPanel extends JPanel {
     /** 盤面クリアボタン */
     private JButton clearButton;
 
-    /** トグルモードボタン */
-    private JButton toggleModeButton;
-
-    /** Gliderモードボタン */
-    private JButton gliderModeButton;
-
-    /** Blockモードボタン */
-    private JButton blockModeButton;
-
     /** ステータス表示ラベル */
     private JLabel statusLabel;
 
@@ -60,11 +52,11 @@ public class ControlPanel extends JPanel {
     /** 世代数表示ラベル */
     private JLabel generationLabel;
 
-    /** 選択モードラベル */
-    private JLabel modeLabel;
-
     /** 更新間隔変更スライダー */
     private JSlider speedSlider;
+
+    /** モード選択用プルダウンリスト */
+    private JComboBox<String> modeComboBox;
 
     /**
      * 操作パネルを生成する。
@@ -74,33 +66,27 @@ public class ControlPanel extends JPanel {
         setLayout(new BorderLayout());
 
         startButton = new JButton("Start");
-
         stopButton = new JButton("Stop");
-
         randomButton = new JButton("Random");
-
         clearButton = new JButton("Clear");
 
-        toggleModeButton = new JButton("Toggle");
-
-        gliderModeButton = new JButton("Glider");
-
-        blockModeButton = new JButton("Block");
+        modeComboBox = new JComboBox<>();
+        modeComboBox.addItem("Toggle");
+        modeComboBox.addItem("Glider");
+        modeComboBox.addItem("Block");
+        modeComboBox.setSelectedItem("Toggle");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(randomButton);
         buttonPanel.add(clearButton);
-        buttonPanel.add(toggleModeButton);
-        buttonPanel.add(gliderModeButton);
-        buttonPanel.add(blockModeButton);
+        buttonPanel.add(new JLabel("Mode:"));
+        buttonPanel.add(modeComboBox);
 
         statusLabel = new JLabel("Status: Stopped");
-
-        modeLabel = new JLabel("Mode: Toggle");
-
         speedLabel = new JLabel("Speed: 200 ms");
+        generationLabel = new JLabel("Generation: 0");
 
         speedSlider = new JSlider(MIN_DELAY, MAX_DELAY, DEFAULT_DELAY);
         speedSlider.setMajorTickSpacing(MAJOR_TICK_SPACING);
@@ -108,11 +94,8 @@ public class ControlPanel extends JPanel {
         speedSlider.setPaintTicks(true);
         speedSlider.setPaintLabels(true);
 
-        generationLabel = new JLabel("Generation: 0");
-
         JPanel statusPanel = new JPanel();
         statusPanel.add(statusLabel);
-        statusPanel.add(modeLabel);
         statusPanel.add(speedLabel);
         statusPanel.add(speedSlider);
         statusPanel.add(generationLabel);
@@ -134,13 +117,20 @@ public class ControlPanel extends JPanel {
         stopButton.addActionListener(e -> controller.stop());
         randomButton.addActionListener(e -> controller.random());
         clearButton.addActionListener(e -> controller.clear());
-        toggleModeButton.addActionListener(e -> controller.setToggleMode());
-        gliderModeButton.addActionListener(e -> controller.setGliderMode());
-        blockModeButton.addActionListener(e -> controller.setBlockMode());
 
         speedSlider.addChangeListener(e -> {
             int delay = speedSlider.getValue();
             controller.setSpeed(delay);
+        });
+
+        modeComboBox.addActionListener(e -> {
+            String selectedMode = (String) modeComboBox.getSelectedItem();
+
+            switch (selectedMode) {
+                case "Toggle" -> controller.setToggleMode();
+                case "Glider" -> controller.setGliderMode();
+                case "Block" -> controller.setBlockMode();
+            }
         });
     }
 
@@ -179,14 +169,5 @@ public class ControlPanel extends JPanel {
     public void updateRunningState(boolean running) {
         startButton.setEnabled(!running);
         stopButton.setEnabled(running);
-    }
-
-    /**
-     * モード表示ラベルを更新する。
-     * 
-     * @param mode 表示するモード名
-     */
-    public void updateModeLabel(String mode) {
-        modeLabel.setText("Mode: " + mode);
     }
 }
