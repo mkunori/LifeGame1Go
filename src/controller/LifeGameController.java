@@ -11,6 +11,23 @@ import view.LifeGameView;
  */
 public class LifeGameController {
 
+    /** スライダー初期値 */
+    private static final int DEFAULT_DELAY = 200;
+
+    /** Glider初期位置行 */
+    private static final int GLIDER_START_ROW = 5;
+
+    /** Glider初期位置列 */
+    private static final int GLIDER_START_COL = 5;
+
+    /** 盤面クリック時の動作モード */
+    private enum ClickMode {
+        TOGGLE, GLIDER, BLOCK
+    }
+
+    /** 盤面クリック時の動作モード */
+    private ClickMode clickMode = ClickMode.TOGGLE;
+
     /** 盤面状態とゲームルールを管理するモデル */
     private LifeGameModel model;
 
@@ -19,15 +36,6 @@ public class LifeGameController {
 
     /** 世代更新の周期ms */
     private Timer timer;
-
-    /** スライダー初期値 */
-    private static final int DEFAULT_DELAY = 200;
-
-    /** グライダー初期位置行 */
-    private static final int GLIDER_START_ROW = 5;
-
-    /** グライダー初期位置列 */
-    private static final int GLIDER_START_COL = 5;
 
     /**
      * コントローラを生成する。
@@ -68,14 +76,19 @@ public class LifeGameController {
     }
 
     /**
-     * 指定したセルの生死を反転する。
+     * 盤面がクリックされたときの処理を行う。
      * 
-     * @param r 行番号
-     * @param c 列番号
+     * @param row クリックされた行
+     * @param col クリックされた列
      */
-    public void toggleCell(int r, int c) {
+    public void handleBoardClick(int row, int col) {
 
-        model.toggleCell(r, c);
+        switch (clickMode) {
+            case TOGGLE -> model.toggleCell(row, col);
+            case GLIDER -> model.placeGlider(row, col);
+            case BLOCK -> model.placeBlock(row, col);
+        }
+
         view.repaintBoard();
     }
 
@@ -109,11 +122,21 @@ public class LifeGameController {
     }
 
     /**
-     * Glider パターンを配置する。
+     * Gliderパターンを配置する。
      */
     public void glider() {
 
         model.placeGlider(GLIDER_START_ROW, GLIDER_START_COL);
+
+        view.repaintBoard();
+    }
+
+    /**
+     * Blockパターンを配置する。
+     */
+    public void block() {
+
+        model.placeBlock(GLIDER_START_ROW, GLIDER_START_COL);
 
         view.repaintBoard();
     }
@@ -148,5 +171,26 @@ public class LifeGameController {
         timer.setDelay(delay);
 
         view.updateSpeedLabel(delay);
+    }
+
+    /**
+     * セル反転モードに切り替える。
+     */
+    public void setToggleMode() {
+        clickMode = ClickMode.TOGGLE;
+    }
+
+    /**
+     * Glider配置モードに切り替える。
+     */
+    public void setGliderMode() {
+        clickMode = ClickMode.GLIDER;
+    }
+
+    /**
+     * Block配置モードに切り替える。
+     */
+    public void setBlockMode() {
+        clickMode = ClickMode.BLOCK;
     }
 }

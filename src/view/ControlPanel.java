@@ -15,33 +15,6 @@ import controller.LifeGameController;
  */
 public class ControlPanel extends JPanel {
 
-    /** 開始ボタン */
-    private JButton startButton;
-
-    /** 停止ボタン */
-    private JButton stopButton;
-
-    /** ランダムボタン */
-    private JButton randomButton;
-
-    /** 盤面クリアボタン */
-    private JButton clearButton;
-
-    /** グライダーパターンボタン */
-    private JButton gliderButton;
-
-    /** ステータス表示ラベル */
-    private JLabel statusLabel;
-
-    /** 更新間隔表示ラベル */
-    private JLabel speedLabel;
-
-    /** 世代数表示ラベル */
-    private JLabel generationLabel;
-
-    /** 更新間隔変更スライダー */
-    private JSlider speedSlider;
-
     /** スライダー最小値 */
     private static final int MIN_DELAY = 50;
 
@@ -57,6 +30,38 @@ public class ControlPanel extends JPanel {
     /** 補助目盛間隔 */
     private static final int MINOR_TICK_SPACING = 50;
 
+    /** 開始ボタン */
+    private JButton startButton;
+
+    /** 停止ボタン */
+    private JButton stopButton;
+
+    /** ランダムボタン */
+    private JButton randomButton;
+
+    /** 盤面クリアボタン */
+    private JButton clearButton;
+
+    /** ステータス表示ラベル */
+    private JLabel statusLabel;
+
+    /** 更新間隔表示ラベル */
+    private JLabel speedLabel;
+
+    /** 世代数表示ラベル */
+    private JLabel generationLabel;
+
+    /** 更新間隔変更スライダー */
+    private JSlider speedSlider;
+
+    /** トグルモードボタン */
+    private JButton toggleModeButton;
+
+    /** Gliderモードボタン */
+    private JButton gliderModeButton;
+
+    /** Blockモードボタン */
+    private JButton blockModeButton;
 
     /**
      * 操作パネルを生成する。
@@ -69,14 +74,19 @@ public class ControlPanel extends JPanel {
         stopButton = new JButton("Stop");
         randomButton = new JButton("Random");
         clearButton = new JButton("Clear");
-        gliderButton = new JButton("Glider");
+
+        toggleModeButton = new JButton("Toggle");
+        gliderModeButton = new JButton("Glider");
+        blockModeButton = new JButton("Block");
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(randomButton);
         buttonPanel.add(clearButton);
-        buttonPanel.add(gliderButton);
+        buttonPanel.add(toggleModeButton);
+        buttonPanel.add(gliderModeButton);
+        buttonPanel.add(blockModeButton);
 
         statusLabel = new JLabel("Status: Stopped");
         speedLabel = new JLabel("Speed: 200 ms");
@@ -111,7 +121,9 @@ public class ControlPanel extends JPanel {
         stopButton.addActionListener(e -> controller.stop());
         randomButton.addActionListener(e -> controller.random());
         clearButton.addActionListener(e -> controller.clear());
-        gliderButton.addActionListener(e -> controller.glider());
+        toggleModeButton.addActionListener(e -> controller.setToggleMode());
+        gliderModeButton.addActionListener(e -> controller.setGliderMode());
+        blockModeButton.addActionListener(e -> controller.setBlockMode());
 
         speedSlider.addChangeListener(e -> {
             int delay = speedSlider.getValue();

@@ -47,7 +47,7 @@ public class BoardPanel extends JPanel {
                 int row = e.getY() / CELL_SIZE;
 
                 // クリックされたセルをControllerに伝える。
-                controller.toggleCell(row, col);
+                controller.handleBoardClick(row, col);
             }
         });
     }

@@ -7,6 +7,26 @@ import java.util.Random;
  */
 public class LifeGameModel {
 
+    /** ランダム初期化の生存確率 */
+    private static final double DEFAULT_ALIVE_PROBABILITY = 0.3;
+
+    /** Gliderパターンの相対座標 */
+    private static final int[][] GLIDER_PATTERN = {
+            {0, 1},
+            {1, 2},
+            {2, 0},
+            {2, 1},
+            {2, 2}
+    };
+
+    /** Block パターンの相対座標 */
+    private static final int[][] BLOCK_PATTERN = {
+            {0, 0},
+            {0, 1},
+            {1, 0},
+            {1, 1}
+    };
+
     /** 盤面の行数 */
     private int rows;
 
@@ -18,9 +38,6 @@ public class LifeGameModel {
 
     /** 世代数 */
     private int generation;
-
-    /** ランダム初期化の生存確率 */
-    private static final double DEFAULT_ALIVE_PROBABILITY = 0.3;
 
     /**
      * 指定した行数と列数でモデルを生成する。
@@ -209,20 +226,64 @@ public class LifeGameModel {
 
     /**
      * 指定位置を左上として Glider パターンを配置する。
-     *
-     * @param r 配置開始行
-     * @param c 配置開始列
+     * 
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
      */
-    public void placeGlider(int r, int c) {
+    public void placeGlider(int startRow, int startCol) {
+        placePattern(GLIDER_PATTERN, startRow, startCol);
+    }
 
-        if (r + 2 >= rows || c + 2 >= cols) {
+    /**
+     * 指定位置を左上として Block パターンを配置する。
+     * 
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
+     */
+    public void placeBlock(int startRow, int startCol) {
+        placePattern(BLOCK_PATTERN, startRow, startCol);
+    }
+
+    /**
+     * 指定した相対座標のパターンを盤面に配置する。
+     * パターンの一部が盤面外に出る場合は何もしない。
+     * 
+     * @param pattern 配置するパターンの相対座標
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
+     */
+    private void placePattern(int[][] pattern, int startRow, int startCol) {
+
+        if (!canPlacePattern(pattern, startRow, startCol)) {
             return;
         }
 
-        grid[r][c + 1] = true;
-        grid[r + 1][c + 2] = true;
-        grid[r + 2][c] = true;
-        grid[r + 2][c + 1] = true;
-        grid[r + 2][c + 2] = true;
+        for (int[] cell : pattern) {
+            int row = startRow + cell[0];
+            int col = startCol + cell[1];
+            grid[row][col] = true;
+        }
+    }
+
+    /**
+     * 指定した位置にパターンを配置できるか判定する。
+     * 
+     * @param pattern 判定するパターンの相対座標
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
+     * @return 配置できる場合 true
+     */
+    private boolean canPlacePattern(int[][] pattern, int startRow, int startCol) {
+
+        for (int[] cell : pattern) {
+            int row = startRow + cell[0];
+            int col = startCol + cell[1];
+
+            if (row < 0 || row >= rows || col < 0 || col >= cols) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
