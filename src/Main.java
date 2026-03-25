@@ -11,10 +11,10 @@ import view.LifeGameView;
 public class Main {
 
     /** 初期行数 */
-    private static final int DEFAULT_ROWS = 30;
+    private static final int DEFAULT_ROWS = 50;
 
     /** 初期列数 */
-    private static final int DEFAULT_COLS = 30;
+    private static final int DEFAULT_COLS = 100;
 
     /**
      * アプリケーションを起動する。

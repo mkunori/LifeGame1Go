@@ -12,19 +12,39 @@ public class LifeGameModel {
 
     /** Gliderパターンの相対座標 */
     private static final int[][] GLIDER_PATTERN = {
-            {0, 1},
-            {1, 2},
-            {2, 0},
-            {2, 1},
-            {2, 2}
+            { 0, 1 },
+            { 1, 2 },
+            { 2, 0 },
+            { 2, 1 },
+            { 2, 2 }
     };
 
-    /** Block パターンの相対座標 */
+    /** Blockパターンの相対座標 */
     private static final int[][] BLOCK_PATTERN = {
-            {0, 0},
-            {0, 1},
-            {1, 0},
-            {1, 1}
+            { 0, 0 },
+            { 0, 1 },
+            { 1, 0 },
+            { 1, 1 }
+    };
+
+    /** Blinkerパターンの相対座標 */
+    private static final int[][] BLINKER_PATTERN = {
+            { 0, 0 },
+            { 0, 1 },
+            { 0, 2 }
+    };
+
+    /** Gosper Glider Gunパターンの相対座標 */
+    private static final int[][] GOSPER_GLIDER_GUN_PATTERN = {
+            { 0, 24 },
+            { 1, 22 }, { 1, 24 },
+            { 2, 12 }, { 2, 13 }, { 2, 20 }, { 2, 21 }, { 2, 34 }, { 2, 35 },
+            { 3, 11 }, { 3, 15 }, { 3, 20 }, { 3, 21 }, { 3, 34 }, { 3, 35 },
+            { 4, 0 }, { 4, 1 }, { 4, 10 }, { 4, 16 }, { 4, 20 }, { 4, 21 },
+            { 5, 0 }, { 5, 1 }, { 5, 10 }, { 5, 14 }, { 5, 16 }, { 5, 17 }, { 5, 22 }, { 5, 24 },
+            { 6, 10 }, { 6, 16 }, { 6, 24 },
+            { 7, 11 }, { 7, 15 },
+            { 8, 12 }, { 8, 13 }
     };
 
     /** 盤面の行数 */
@@ -93,7 +113,6 @@ public class LifeGameModel {
     public void resetGeneration() {
         generation = 0;
     }
-
 
     /**
      * 指定したセルの状態を返す。
@@ -245,10 +264,30 @@ public class LifeGameModel {
     }
 
     /**
+     * 指定位置を左上として Blinker パターンを配置する。
+     * 
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
+     */
+    public void placeBlinker(int startRow, int startCol) {
+        placePattern(BLINKER_PATTERN, startRow, startCol);
+    }
+
+    /**
+     * 指定位置を左上として Gosper Glider Gun パターンを配置する。
+     * 
+     * @param startRow 配置開始行
+     * @param startCol 配置開始列
+     */
+    public void placeGosperGliderGun(int startRow, int startCol) {
+        placePattern(GOSPER_GLIDER_GUN_PATTERN, startRow, startCol);
+    }
+
+    /**
      * 指定した相対座標のパターンを盤面に配置する。
      * パターンの一部が盤面外に出る場合は何もしない。
      * 
-     * @param pattern 配置するパターンの相対座標
+     * @param pattern  配置するパターンの相対座標
      * @param startRow 配置開始行
      * @param startCol 配置開始列
      */
@@ -268,7 +307,7 @@ public class LifeGameModel {
     /**
      * 指定した位置にパターンを配置できるか判定する。
      * 
-     * @param pattern 判定するパターンの相対座標
+     * @param pattern  判定するパターンの相対座標
      * @param startRow 配置開始行
      * @param startCol 配置開始列
      * @return 配置できる場合 true

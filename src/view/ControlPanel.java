@@ -75,6 +75,8 @@ public class ControlPanel extends JPanel {
         modeComboBox.addItem(ClickMode.TOGGLE);
         modeComboBox.addItem(ClickMode.GLIDER);
         modeComboBox.addItem(ClickMode.BLOCK);
+        modeComboBox.addItem(ClickMode.BLINKER);
+        modeComboBox.addItem(ClickMode.GOSPER_GLIDER_GUN);
         modeComboBox.setSelectedItem(ClickMode.TOGGLE);
 
         JPanel buttonPanel = new JPanel();
@@ -86,7 +88,7 @@ public class ControlPanel extends JPanel {
         buttonPanel.add(modeComboBox);
 
         statusLabel = new JLabel("Status: Stopped");
-        speedLabel = new JLabel("Speed:" + DEFAULT_DELAY + "ms");
+        speedLabel = new JLabel("Speed: " + DEFAULT_DELAY + " ms");
         generationLabel = new JLabel("Generation: 0");
 
         speedSlider = new JSlider(MIN_DELAY, MAX_DELAY, DEFAULT_DELAY);
@@ -126,12 +128,7 @@ public class ControlPanel extends JPanel {
 
         modeComboBox.addActionListener(e -> {
             ClickMode selectedMode = (ClickMode) modeComboBox.getSelectedItem();
-
-            switch (selectedMode) {
-                case TOGGLE -> controller.setToggleMode();
-                case GLIDER -> controller.setGliderMode();
-                case BLOCK -> controller.setBlockMode();
-            }
+            selectedMode.apply(controller);
         });
     }
 

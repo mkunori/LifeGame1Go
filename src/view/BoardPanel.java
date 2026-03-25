@@ -23,7 +23,7 @@ public class BoardPanel extends JPanel {
     private LifeGameController controller;
 
     /** 盤面のグリッド1マスあたりのサイズpx */
-    private static final int CELL_SIZE = 20;
+    private static final int CELL_SIZE = 15;
 
     /**
      * 盤面表示用パネルを生成する。
@@ -47,7 +47,9 @@ public class BoardPanel extends JPanel {
                 int row = e.getY() / CELL_SIZE;
 
                 // クリックされたセルをControllerに伝える。
-                controller.handleBoardClick(row, col);
+                if (controller != null) {
+                    controller.handleBoardClick(row, col);
+                }
             }
         });
     }

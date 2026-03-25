@@ -30,7 +30,7 @@ public class LifeGameController {
      * コントローラを生成する。
      * 
      * @param model ライフゲームの状態を管理するモデル
-     * @param view 画面表示を担当するビュー
+     * @param view  画面表示を担当するビュー
      */
     public LifeGameController(LifeGameModel model, LifeGameView view) {
 
@@ -75,6 +75,8 @@ public class LifeGameController {
             case TOGGLE -> model.toggleCell(row, col);
             case GLIDER -> model.placeGlider(row, col);
             case BLOCK -> model.placeBlock(row, col);
+            case BLINKER -> model.placeBlinker(row, col);
+            case GOSPER_GLIDER_GUN -> model.placeGosperGliderGun(row, col);
         }
 
         view.repaintBoard();
@@ -163,5 +165,19 @@ public class LifeGameController {
      */
     public void setBlockMode() {
         clickMode = ClickMode.BLOCK;
+    }
+
+    /**
+     * Blinker配置モードに切り替える。
+     */
+    public void setBlinkerMode() {
+        clickMode = ClickMode.BLINKER;
+    }
+
+    /**
+     * Gosper Glider Gun配置モードに切り替える。
+     */
+    public void setGosperGliderGunMode() {
+        clickMode = ClickMode.GOSPER_GLIDER_GUN;
     }
 }
