@@ -9,6 +9,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import controller.ClickMode;
 import controller.LifeGameController;
 import model.LifeGameModel;
@@ -31,6 +34,9 @@ public class BoardPanel extends JPanel {
 
     /** マウスの現在位置の列 (セル単位) */
     private int hoverCol = -1;
+
+    /** 現在のドラッグ操作ですでに通過したセル */
+    private Set<String> draggedCells = new HashSet<>();
 
     /** 盤面のグリッド1マスあたりのサイズpx */
     private static final int CELL_SIZE = 15;
@@ -62,12 +68,15 @@ public class BoardPanel extends JPanel {
 
                 hoverRow = -1;
                 hoverCol = -1;
+                draggedCells.clear();
 
                 repaint();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
+
+                draggedCells.clear();
 
                 int col = e.getX() / CELL_SIZE;
                 int row = e.getY() / CELL_SIZE;
@@ -102,8 +111,14 @@ public class BoardPanel extends JPanel {
                 hoverRow = row;
                 hoverCol = col;
 
-                if (controller != null) {
-                    controller.handleBoardDrag(row, col);
+                String cellKey = row + "," + col;
+
+                if (!draggedCells.contains(cellKey)) {
+                    draggedCells.add(cellKey);
+
+                    if (controller != null) {
+                        controller.handleBoardDrag(row, col);
+                    }
                 }
 
                 repaint();

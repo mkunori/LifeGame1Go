@@ -85,7 +85,7 @@ public class LifeGameController {
 
     /**
      * 盤面がドラッグされたとき処理を行う。
-     * Toggleモードのときは通過したセルを生存状態にする。
+     * Toggleモードのときは通過したセルを反転する。
      * 
      * @param row ドラッグされた行
      * @param col ドラッグされた列
@@ -93,7 +93,7 @@ public class LifeGameController {
     public void handleBoardDrag(int row, int col) {
 
         if (clickMode == ClickMode.TOGGLE) {
-            model.setCellAlive(row, col);
+            model.toggleCell(row, col);
             view.repaintBoard();
         }
     }
