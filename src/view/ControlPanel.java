@@ -76,6 +76,8 @@ public class ControlPanel extends JPanel {
         modeComboBox.addItem(ClickMode.GLIDER);
         modeComboBox.addItem(ClickMode.BLOCK);
         modeComboBox.addItem(ClickMode.BLINKER);
+        modeComboBox.addItem(ClickMode.TOAD);
+        modeComboBox.addItem(ClickMode.BEACON);
         modeComboBox.addItem(ClickMode.GOSPER_GLIDER_GUN);
         modeComboBox.setSelectedItem(ClickMode.TOGGLE);
 

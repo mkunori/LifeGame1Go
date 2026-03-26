@@ -10,6 +10,8 @@ public enum ClickMode {
     GLIDER("Glider"),
     BLOCK("Block"),
     BLINKER("Blinker"),
+    TOAD("Toad"),
+    BEACON("Beacon"),
     GOSPER_GLIDER_GUN("Gosper Glider Gun");
 
     /** 画面表示用の名前 */
@@ -36,6 +38,8 @@ public enum ClickMode {
             case GLIDER -> PatternType.GLIDER;
             case BLOCK -> PatternType.BLOCK;
             case BLINKER -> PatternType.BLINKER;
+            case TOAD -> PatternType.TOAD;
+            case BEACON -> PatternType.BEACON;
             case GOSPER_GLIDER_GUN -> PatternType.GOSPER_GLIDER_GUN;
         };
     }
@@ -61,6 +65,8 @@ public enum ClickMode {
             case GLIDER -> controller.setGliderMode();
             case BLOCK -> controller.setBlockMode();
             case BLINKER -> controller.setBlinkerMode();
+            case TOAD -> controller.setToadMode();
+            case BEACON -> controller.setBeaconMode();
             case GOSPER_GLIDER_GUN -> controller.setGosperGliderGunMode();
         }
     }

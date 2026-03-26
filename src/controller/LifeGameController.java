@@ -77,6 +77,8 @@ public class LifeGameController {
             case GLIDER -> model.placePattern(PatternType.GLIDER, row, col);
             case BLOCK -> model.placePattern(PatternType.BLOCK, row, col);
             case BLINKER -> model.placePattern(PatternType.BLINKER, row, col);
+            case TOAD -> model.placePattern(PatternType.TOAD, row, col);
+            case BEACON -> model.placePattern(PatternType.BEACON, row, col);
             case GOSPER_GLIDER_GUN -> model.placePattern(PatternType.GOSPER_GLIDER_GUN, row, col);
         }
 
@@ -197,6 +199,20 @@ public class LifeGameController {
      */
     public void setBlinkerMode() {
         clickMode = ClickMode.BLINKER;
+    }
+
+    /**
+     * Toad配置モードに切り替える。
+     */
+    public void setToadMode() {
+        clickMode = ClickMode.TOAD;
+    }
+
+    /**
+     * Beacon配置モードに切り替える。
+     */
+    public void setBeaconMode() {
+        clickMode = ClickMode.BEACON;
     }
 
     /**
