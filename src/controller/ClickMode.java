@@ -1,5 +1,7 @@
 package controller;
 
+import model.PatternType;
+
 /**
  * 盤面クリック時の動作モード。
  */
@@ -20,6 +22,22 @@ public enum ClickMode {
      */
     ClickMode(String displayName) {
         this.displayName = displayName;
+    }
+
+    /**
+     * 対応する配置パターンを返す。
+     * Toggleモードではnullを返す。
+     * 
+     * @return 対応する配置パターン
+     */
+    public PatternType getPatternType() {
+        return switch (this) {
+            case TOGGLE -> null;
+            case GLIDER -> PatternType.GLIDER;
+            case BLOCK -> PatternType.BLOCK;
+            case BLINKER -> PatternType.BLINKER;
+            case GOSPER_GLIDER_GUN -> PatternType.GOSPER_GLIDER_GUN;
+        };
     }
 
     /**

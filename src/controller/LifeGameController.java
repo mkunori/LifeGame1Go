@@ -148,6 +148,15 @@ public class LifeGameController {
     }
 
     /**
+     * 現在のクリックモードを返す。
+     * 
+     * @return 現在のクリックモード
+     */
+    public ClickMode getClickMode() {
+        return clickMode;
+    }
+
+    /**
      * セル反転モードに切り替える。
      */
     public void setToggleMode() {

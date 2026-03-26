@@ -1,18 +1,22 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import controller.ClickMode;
 import controller.LifeGameController;
 import model.LifeGameModel;
+import model.PatternType;
 
 /**
  * ライフゲームの盤面を表示するパネル。
- * セルの描画とマウスクリックの受付を担当する。
+ * セルの描画とマウス入力の受付を担当する。
  */
 public class BoardPanel extends JPanel {
 
@@ -22,8 +26,17 @@ public class BoardPanel extends JPanel {
     /** ライフゲームのコントローラ層 */
     private LifeGameController controller;
 
+    /** マウスの現在位置の行 (セル単位) */
+    private int hoverRow = -1;
+
+    /** マウスの現在位置の列 (セル単位) */
+    private int hoverCol = -1;
+
     /** 盤面のグリッド1マスあたりのサイズpx */
     private static final int CELL_SIZE = 15;
+
+    /** プレビュー表示用のカラー */
+    private static final Color PREVIEW_COLOR = new Color(0, 0, 255, 80);
 
     /**
      * 盤面表示用パネルを生成する。
@@ -31,6 +44,7 @@ public class BoardPanel extends JPanel {
      * @param model 描画対象のモデル
      */
     public BoardPanel(LifeGameModel model) {
+
         this.model = model;
 
         int boardWidth = model.getCols() * CELL_SIZE;
@@ -39,6 +53,15 @@ public class BoardPanel extends JPanel {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
 
         addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+                hoverRow = -1;
+                hoverCol = -1;
+
+                repaint();
+            }
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -50,6 +73,21 @@ public class BoardPanel extends JPanel {
                 if (controller != null) {
                     controller.handleBoardClick(row, col);
                 }
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+
+                int col = e.getX() / CELL_SIZE;
+                int row = e.getY() / CELL_SIZE;
+
+                hoverRow = row;
+                hoverCol = col;
+
+                repaint();
             }
         });
     }
@@ -88,5 +126,89 @@ public class BoardPanel extends JPanel {
                 }
             }
         }
+
+        drawPreview(g);
+    }
+
+    /**
+     * 現在のモードに応じたプレビューを描画する。
+     * 
+     * @param g 描画に使用するGraphicsオブジェクト
+     */
+    private void drawPreview(Graphics g) {
+
+        if (controller == null) {
+            return;
+        }
+
+        if (hoverRow < 0 || hoverCol < 0) {
+            return;
+        }
+
+        ClickMode clickMode = controller.getClickMode();
+
+        if (clickMode == ClickMode.TOGGLE) {
+            drawTogglePreview(g);
+            return;
+        }
+
+        PatternType patternType = clickMode.getPatternType();
+
+        if (patternType == null) {
+            return;
+        }
+
+        drawPatternPreview(g, patternType);
+    }
+
+    /**
+     * Toggle モード用のプレビューを描画する。
+     * 
+     * @param g 描画に使用する Graphics オブジェクト
+     */
+    private void drawTogglePreview(Graphics g) {
+
+        if (hoverRow < 0 || hoverCol < 0) {
+            return;
+        }
+
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(PREVIEW_COLOR);
+
+        int x = hoverCol * CELL_SIZE;
+        int y = hoverRow * CELL_SIZE;
+
+        g2.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        g2.dispose();
+    }
+
+    /**
+     * パターン配置用のプレビューを描画する。
+     * 
+     * @param g           描画に使用する Graphics オブジェクト
+     * @param patternType プレビュー表示するパターン
+     */
+    private void drawPatternPreview(Graphics g, PatternType patternType) {
+
+        int[][] cells = patternType.getCells();
+
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(PREVIEW_COLOR);
+
+        for (int[] cell : cells) {
+            int row = hoverRow + cell[0];
+            int col = hoverCol + cell[1];
+
+            if (row < 0 || row >= model.getRows() || col < 0 || col >= model.getCols()) {
+                continue;
+            }
+
+            int x = col * CELL_SIZE;
+            int y = row * CELL_SIZE;
+
+            g2.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        }
+
+        g2.dispose();
     }
 }
